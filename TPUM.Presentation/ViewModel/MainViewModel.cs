@@ -138,9 +138,14 @@ namespace TPUM.Presentation.ViewModel
 
         public async void GetProducts()
         {
-            await _ConnectionService.SendTask("GetProduct:1");          
-            //_Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts());        
-           // _CurrentProduct = _Products[0];
+            await _ConnectionService.SendTask("GetUser:1");
+            //_ClientService = new ClientService();
+            _ProductService = new ProductService();
+            Products = new ObservableCollection<ProductDTO>( _ProductService.GetProducts());
+            //_Clients = new ObservableCollection<ClientDTO>(await _ClientService.GetUsers());
+            //var x =_Clients[0];
+            //Console.WriteLine(x.ToString());
+            //_CurrentProduct = _Products[0];
         }
 
         public void RaisePrices()
