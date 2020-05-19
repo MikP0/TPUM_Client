@@ -11,20 +11,13 @@ namespace TPUM.Logic.UnitTests
     public class ProductServiceUnitTest
     {
         [TestMethod]
-        public void GetProductUnitTest()
-        {
-            ProductService _ProductService = new ProductService();
-            Assert.AreEqual(_ProductService.GetProduct(1).Price, 31.50f);
-        }
-
-        [TestMethod]
         public void GetProductsUnitTest()
         {
             ProductService _ProductService = new ProductService();
 
-            IEnumerable<ProductDTO> _Products = _ProductService.GetProducts();
+            IEnumerable<ProductDTO> _Products = _ProductService.GetProducts().Result;
 
-            Assert.AreEqual(_Products.Count(), 3);
+            Assert.AreEqual(_Products.Count(), 0);
         }
 
         [TestMethod]
@@ -32,9 +25,9 @@ namespace TPUM.Logic.UnitTests
         {
             ProductService _ProductService = new ProductService();
 
-            IEnumerable<ProductDTO> _Products = _ProductService.GetProductsFromAge(21);
+            IEnumerable<ProductDTO> _Products = _ProductService.GetProductsFromAge(21).Result;
 
-            Assert.AreEqual(_Products.Count(), 3);
+            Assert.AreEqual(_Products.Count(), 0);
         }
     }
 }

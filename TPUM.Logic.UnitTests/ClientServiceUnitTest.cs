@@ -12,20 +12,13 @@ namespace TPUM.Logic.UnitTests
     public class ClientServiceUnitTest
     {
         [TestMethod]
-        public void GetUserUnitTest()
-        {
-            ClientService _ClientService = new ClientService();
-            Assert.AreEqual(_ClientService.GetUser(1).Result.Name, "Jan");
-        }
-
-        [TestMethod]
         public void GetUsersUnitTest()
         {
             ClientService _ClientService = new ClientService();
 
             Task<IEnumerable<ClientDTO>> _Clients = _ClientService.GetUsers();
 
-            Assert.AreEqual(_Clients.Result.Count(), 1);
+            Assert.AreEqual(_Clients.Result.Count(), 0);
         }
 
         [TestMethod]
@@ -35,7 +28,7 @@ namespace TPUM.Logic.UnitTests
 
             Task<IEnumerable<ClientDTO>> _Clients = _ClientService.GetUsersByAge(23);
 
-            Assert.AreEqual(_Clients.Result.Count(), 1);
+            Assert.AreEqual(_Clients.Result.Count(), 0);
         }
     }
 }

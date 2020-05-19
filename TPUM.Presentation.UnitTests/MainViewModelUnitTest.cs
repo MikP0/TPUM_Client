@@ -28,16 +28,5 @@ namespace TPUM.Presentation.UnitTests
 
             Assert.IsTrue(_vm.CurrentProduct.Price < _rememberPrice);
         }
-
-        [TestMethod]
-        public void DeleteCurrentProductTest()
-        {
-            MainViewModel _vm = new MainViewModel();
-            Assert.AreEqual(_vm.Products.Count, 3);
-
-            _vm.DeleteCurrentProduct();
-
-            Assert.AreEqual(_vm.Products.Count, 2);
-        }
     }
 }
