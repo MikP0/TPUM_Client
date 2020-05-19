@@ -13,7 +13,7 @@ namespace TPUM.Data
         {
             Clients = new List<Client>();
             Products = new List<Product>();
-            GenerateData();
+            //GenerateData();
         }
         public static DbContext Instance
         {

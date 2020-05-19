@@ -11,8 +11,8 @@
         <vm:MainViewModel x:Key="MainViewModel"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource MainViewModel}">
-        <Button Content="Change Prices" HorizontalAlignment="Left" Margin="40,347,0,0" VerticalAlignment="Top" Height="53" Width="128" Command="{Binding DoCommand}"/>
-        <Button Content="Remove Product" HorizontalAlignment="Left" Margin="207,347,0,0" VerticalAlignment="Top" Height="53" Width="127" Command="{Binding DoNextCommand}"/>
+        <Button Content="Connect" HorizontalAlignment="Left" Margin="40,347,0,0" VerticalAlignment="Top" Height="53" Width="128" Command="{Binding DoCommand}"/>
+        <Button Content="Show product" HorizontalAlignment="Left" Margin="207,347,0,0" VerticalAlignment="Top" Height="53" Width="127" Command="{Binding DoNextCommand}"/>
         <StackPanel Margin="0,0,0,105">
             <ListView x:Name="lsvProductMaster" ItemsSource="{Binding Products}" SelectedItem="{Binding CurrentProduct}" Height="313">
                 <ListView.View>
@@ -25,5 +25,7 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
+        <TextBlock HorizontalAlignment="Left" Margin="576,361,0,0" Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button Content="Command" HorizontalAlignment="Left" Margin="377,347,0,0" VerticalAlignment="Top" Height="53" Width="136" Command="{Binding ThirdCommand}"/>
     </Grid>
 </Window>

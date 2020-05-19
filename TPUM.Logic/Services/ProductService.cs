@@ -31,6 +31,7 @@ namespace TPUM.Logic.Services
 
         public IEnumerable<ProductDTO> GetProducts()
         {
+            DbContext.Instance.ToString();
             IEnumerable<Product> products = _productRepository.Get();
 
             return products.Select(c => Mappings.MapProduct(c)).ToList();

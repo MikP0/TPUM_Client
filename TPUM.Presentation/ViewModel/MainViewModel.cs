@@ -13,6 +13,7 @@ namespace TPUM.Presentation.ViewModel
     {
         public ICommand DoCommand { get; }
         public ICommand DoNextCommand { get; }
+        public ICommand ThirdCommand { get; }
 
         private ObservableCollection<ProductDTO> _Products;
         private ProductDTO _CurrentProduct;
@@ -25,6 +26,19 @@ namespace TPUM.Presentation.ViewModel
         private ClientService _ClientService;
         private ObservableCollection<ClientDTO> _Clients;
 
+        private ConnectionService _ConnectionService;
+
+        private string _ResultText;
+
+        public string ResultText
+        {
+            get { return _ResultText; }
+            set 
+            { 
+                _ResultText = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ObservableCollection<ProductDTO> Products
         {
@@ -67,18 +81,23 @@ namespace TPUM.Presentation.ViewModel
 
         public MainViewModel()
         {
-            DoCommand = new RelayCommand(SetPricesTimer);
-            DoNextCommand = new RelayCommand(DeleteCurrentProduct);
+            DoCommand = new RelayCommand(SetConnection);
+            DoNextCommand = new RelayCommand(GetProducts);
+            ThirdCommand = new RelayCommand(SetPricesTimer);
 
             _ProductService = new ProductService();
             _Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts());
-            _CurrentProduct = Products[0];
+            _CurrentProduct = null;
 
             _ClientService = new ClientService();
 
+            _ConnectionService = new ConnectionService();
+
+            _ResultText = "SIMPLE_TEXT";
         }
 
-        public void SetPricesTimer()
+
+        public async void SetPricesTimer()
         {
             SetReactiveTimer(TimeSpan.FromSeconds(2));
         }
@@ -96,7 +115,7 @@ namespace TPUM.Presentation.ViewModel
                 _CurrentProduct = null;
             }
         }
-        
+
         public async void GetAllClients()
         {
             _Clients = new ObservableCollection<ClientDTO>(await _ClientService.GetUsers());
@@ -109,6 +128,19 @@ namespace TPUM.Presentation.ViewModel
             _observer = _tickObservable.Subscribe(x => RaisePrices());
 
             _cyclicTimer.Start();
+        }
+
+        public async void SetConnection()
+        {
+            Uri _uri = new Uri("ws://localhost:8081/");
+            await _ConnectionService.CreateConnection(_uri);
+        }
+
+        public async void GetProducts()
+        {
+            await _ConnectionService.SendTask("GetProduct:1");          
+            //_Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts());        
+           // _CurrentProduct = _Products[0];
         }
 
         public void RaisePrices()
