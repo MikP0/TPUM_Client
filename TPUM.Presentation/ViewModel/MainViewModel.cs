@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using TPUM.Logic;
 using TPUM.Logic.DTOs;
@@ -29,6 +31,9 @@ namespace TPUM.Presentation.ViewModel
         private ConnectionService _ConnectionService;
 
         private string _ResultText;
+
+        private Uri _Uri;
+        private string _UriPeer = "ws://localhost:8081/";
 
         public string ResultText
         {
@@ -86,16 +91,17 @@ namespace TPUM.Presentation.ViewModel
             ThirdCommand = new RelayCommand(SetPricesTimer);
 
             _ProductService = new ProductService();
-            _Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts());
+            _Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts().Result);
             _CurrentProduct = null;
 
             _ClientService = new ClientService();
 
             _ConnectionService = new ConnectionService();
 
-            _ResultText = "SIMPLE_TEXT";
-        }
+            _ResultText = "No connection";
 
+            _Uri = new Uri(_UriPeer);
+        }
 
         public async void SetPricesTimer()
         {
@@ -134,30 +140,18 @@ namespace TPUM.Presentation.ViewModel
         {
             Uri _uri = new Uri("ws://localhost:8081/");
             await _ConnectionService.CreateConnection(_uri);
+            ResultText = "Connected";
         }
 
         public async void GetProducts()
         {
-            await _ConnectionService.SendTask("GetProduct:1");          
-            //_Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts());        
-           // _CurrentProduct = _Products[0];
+            await _ConnectionService.SendTask("GetProduct:1");
+            SetReactiveTimer(TimeSpan.FromSeconds(1));
         }
 
         public void RaisePrices()
         {
-            ObservableCollection<ProductDTO> productsTemp = Products;
-
-            foreach (ProductDTO product in productsTemp)
-            {
-                product.Price -= 1;
-
-                if (product.Price <= 0)
-                {
-                    product.Price = 1;
-                }
-            }
-
-            Products = new ObservableCollection<ProductDTO>(productsTemp);
+            Products = new ObservableCollection<ProductDTO>(_ProductService.GetProducts().Result);
         }
     }
 }

@@ -25,7 +25,6 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <TextBlock HorizontalAlignment="Left" Margin="576,361,0,0" Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button Content="Command" HorizontalAlignment="Left" Margin="377,347,0,0" VerticalAlignment="Top" Height="53" Width="136" Command="{Binding ThirdCommand}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="400,366,0,0" Text="{Binding ResultText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Window>

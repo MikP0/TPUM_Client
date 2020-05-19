@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TPUM.Data;
 using TPUM.Data.Interfaces;
 using TPUM.Data.Model;
@@ -23,13 +24,13 @@ namespace TPUM.Logic.Services
             _productRepository = productRepository;
         }
 
-        public ProductDTO GetProduct(int id)
+        public async Task<ProductDTO> GetProduct(int id)
         {
             Product product = _productRepository.Get(id);
             return Mappings.MapProduct(product);
         }
 
-        public IEnumerable<ProductDTO> GetProducts()
+        public async Task<IEnumerable<ProductDTO>> GetProducts()
         {
             DbContext.Instance.ToString();
             IEnumerable<Product> products = _productRepository.Get();
@@ -37,7 +38,7 @@ namespace TPUM.Logic.Services
             return products.Select(c => Mappings.MapProduct(c)).ToList();
         }
 
-        public IEnumerable<ProductDTO> GetProductsFromAge(int age)
+        public async Task<IEnumerable<ProductDTO>> GetProductsFromAge(int age)
         {
             IEnumerable<Product> products = _productRepository.Get(c => c.AllowedFromDate.Year >= DateTime.Now.Year - age);
 
